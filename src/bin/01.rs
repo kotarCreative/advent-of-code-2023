@@ -45,7 +45,7 @@ pub fn convert_number_string_to_number(number_str: &str) -> String {
 
 pub fn part_two(input: &str) -> Option<u32> {
     let re = Regex::new(r"(\d|one|two|three|four|five|six|seven|eight|nine)").unwrap();
-    let reverse_re = Regex::new(r"(\d|eno|owt|eerht|ruof|evif|xis|neves|thgie|enin)").unwrap(); 
+    let reverse_re = Regex::new(r"(\d|eno|owt|eerht|ruof|evif|xis|neves|thgie|enin)").unwrap();
     let mut sum = 0;
     for line in input.lines() {
         // Extract the first and last numbers from the line.
@@ -55,7 +55,15 @@ pub fn part_two(input: &str) -> Option<u32> {
         let mut number_str = String::new();
         let first_number = numbers.next().unwrap().get(0).unwrap().as_str();
         number_str.push_str(&convert_number_string_to_number(first_number));
-        let last_number = reverse_numbers.next().unwrap().get(0).unwrap().as_str().chars().rev().collect::<String>();
+        let last_number = reverse_numbers
+            .next()
+            .unwrap()
+            .get(0)
+            .unwrap()
+            .as_str()
+            .chars()
+            .rev()
+            .collect::<String>();
         number_str.push_str(&convert_number_string_to_number(&last_number));
         // Convert the string to a number.
         let number = number_str.parse::<u32>().unwrap();
@@ -71,13 +79,17 @@ mod tests {
 
     #[test]
     fn test_part_one() {
-        let result = part_one(&advent_of_code::template::read_file("examples", DAY));
+        let result = part_two(&advent_of_code::template::read_file_part(
+            "examples", DAY, 1,
+        ));
         assert_eq!(result, Some(142));
     }
 
     #[test]
     fn test_part_two() {
-        let result = part_two(&advent_of_code::template::read_file("examples", DAY));
+        let result = part_two(&advent_of_code::template::read_file_part(
+            "examples", DAY, 2,
+        ));
         assert_eq!(result, Some(281));
     }
 }
